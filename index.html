@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" ng-app="MarvelApp">
+    <head>
+        <title>Marvel API Test</title>
+        <link rel="shortcut icon" type="image/x-icon" href="./resource/thumb.ico">
+        <!--link rel="stylesheet" href="css/style.css"-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular-route.min.js"></script>
+        <script src="js/app.js"></script>
+    </head>
+    <header>
+        <img src="./resource/marvel.jpg" class="logo">
+        <h1>UNIVERSE EXPLORER</h1>
+    </header>
+    <body>
+        
+        <div class="view-container">
+            <div ng-view class="view-frame"></div>
+        </div>
+        
+    </body>
+    <footer>
+        <p>Data provided by Marvel. &#169 2014 Marvel</p>
+    </footer>
+</html>

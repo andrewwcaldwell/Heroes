@@ -1,0 +1,12 @@
+<main class="detailPanel">
+    <img ng-src="{{event.thumbnail.path}}/landscape_incredible.{{event.thumbnail.extension}}" class="big">
+    <div class="upper">
+        <h4>Event Details</h4>
+        <h2>{{ event.title }}</h2>
+        <p>{{ event.description }}</p>
+        <h4> Characters Related to Event:</h4>
+        <ul ng-repeat="character in event.characters.items">
+            <li>{{ character.name }}</li>
+        </ul>
+    </div>
+</main>

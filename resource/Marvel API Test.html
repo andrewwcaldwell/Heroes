@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Marvel API Test</title>
+        <link rel="stylesheet" href="css/style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js"></script>
+        <script src="js/app.js"></script>
+    </head>
+    <header>
+        <img src="./resource/marvel.jpg" class="logo">
+        <h1>Universe Explorer</h1>
+        <p> Powered by Marvel API</p>
+    </header>
+    <body ng-app="MarvelApp">
+        <div ng-controller="MController1">
+            <!--input type="text" ng-model="findem" placeholder="Type to Filter by Input"-->
+            <!--p> {{ findem }}</p-->
+            <div  class="wrapper">
+                <ul class="listPanel">
+                    <h3>Characters</h3>
+                    <li class="character" ng-repeat="hero in heroes | filter: findem" ng-click="viewDetail(hero.id)">
+                        <img src="{{ hero.thumbnail.path }}/standard_small.{{ hero.thumbnail.extension}} " class="small">
+                        <p class="list">{{ hero.name }}</p>
+                    </li>
+                </ul>
+                <main class="detailPanel">
+                    <img src="{{indy.thumbnail.path}}/landscape_incredible.{{indy.thumbnail.extension}}" class="big">
+                    <div class="upper">
+                        <h2>{{ indy.name }}</h2>
+                        <p>{{ indy.description }}</p>
+                        <p> Events Related to {{ indy.name }}</p>
+                        <ul ng-repeat="event in indy.events.items">
+                            <li>{{ event.name }}</li>
+                        </ul>
+                    </div>    
+                </main>
+            </div>
+        </div>
+    </body>
+    <footer>
+        <p>Data provided by Marvel. © 2014 Marvel</p>
+    </footer>
+</html>

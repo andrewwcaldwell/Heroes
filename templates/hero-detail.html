@@ -1,0 +1,12 @@
+<main class="detailPanel">
+    <img ng-src="{{indy.thumbnail.path}}/landscape_incredible.{{indy.thumbnail.extension}}" class="big">
+    <div class="upper">
+        <h4>Character Profile:</h4>
+        <h2>{{ indy.name }}</h2>
+        <p>{{ indy.description }}</p>
+        <h4> Events Related to Character:</h4>
+        <ul ng-repeat="event in indy.events.items">
+            <li><a href="#/heroes/{{ indy.id }}/{{ event.name }}">{{ event.name }}</a></li>
+        </ul>
+    </div>
+</main>

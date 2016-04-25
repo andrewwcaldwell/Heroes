@@ -1,0 +1,9 @@
+<ul class="listPanel">
+<h3>Characters</h3>
+    <li class="character" ng-repeat="hero in heroes | filter: findem">
+        <a href="#/heroes/{{ hero.id }}">
+            <img ng-src="{{ hero.thumbnail.path }}/standard_small.{{ hero.thumbnail.extension}} " class="small">
+            <p class="list">{{ hero.name }}</p>
+        </a>
+    </li>
+</ul>
