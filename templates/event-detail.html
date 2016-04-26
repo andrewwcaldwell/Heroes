@@ -5,8 +5,12 @@
         <h2>{{ event.title }}</h2>
         <p>{{ event.description }}</p>
         <h4> Characters Related to Event:</h4>
-        <ul ng-repeat="character in event.characters.items">
-            <li>{{ character.name }}</li>
-        </ul>
+        <li class="character" ng-repeat="character in characters">
+        <a href="#/heroes/{{ character.id }}">
+            <img ng-src="{{ character.thumbnail.path }}/standard_small.{{ character.thumbnail.extension}} " class="small">
+            <p class="list">{{ character.name }}</p>
+            <p class="record"> Events on Record: {{ character.events.available }}</p>
+        </a>
+    </li>
     </div>
 </main>

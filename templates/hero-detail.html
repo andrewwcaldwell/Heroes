@@ -4,9 +4,18 @@
         <h4>Character Profile:</h4>
         <h2>{{ indy.name }}</h2>
         <p>{{ indy.description }}</p>
-        <h4> Events Related to Character:</h4>
-        <ul ng-repeat="event in indy.events.items">
-            <li><a href="#/heroes/{{ indy.id }}/{{ event.name }}">{{ event.name }}</a></li>
+        <h4>{{ events.length }} Events Related to Character:</h4>
+        <ul ng-repeat="event in events">
+            <li>
+                <a href="#/heroes/{{ indy.id }}/{{ event.id }}"> {{ event.title }}</a>
+                <p ng-click="setClick(event)">Event ID: {{ event.id }} </p>
+            
+            </li>
+        </ul>
+        
+        <h4>Character Listings for {{ eventCharacters.title }} </h4>
+        <ul ng-repeat="character in eventCharacters.characters.items">
+            <li> {{ character.name }} </li>
         </ul>
     </div>
 </main>

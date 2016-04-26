@@ -19,7 +19,7 @@ heroApp.config(['$routeProvider', function($routeProvider) {
             controller: 'HeroDetailController',
             templateUrl: 'templates/hero-detail.html',
         }).
-        when('/heroes/:heroID/:event', {
+        when('/heroes/:heroID/:eventID', {
             controller: 'EventDetailController',
             templateUrl: 'templates/event-detail.html'
         }).
@@ -32,20 +32,32 @@ heroApp.config(['$routeProvider', function($routeProvider) {
 //////////// LIST CHARACTERS CONTROLLER ////////////
 heroApp.controller('HeroListController', ['$scope', 'HeroService', function($scope, HeroService) {
     //console.log('Hero List is Working');
-    $scope.heroes = HeroService.getAllHeroes();    
+    $scope.heroes = HeroService.getAllHeroes();
+    //console.log($scope.heroes);
 }]);
 
 //////////// CHARACTER DETAIL CONTROLLER ////////////
 heroApp.controller('HeroDetailController', ['$scope', '$routeParams', 'HeroService', function($scope, $routeParams, HeroService) {
     //console.log('Hero Detail is Working');
     $scope.indy = HeroService.getCurrentHero($routeParams.heroID);
-    HeroService.prepEvents($routeParams.heroID);
+    //console.log('Hero Detail');
+    //console.log($scope.indy);
+    $scope.events = HeroService.getHeroEvents($routeParams.heroID);
+    //console.log('Hero Events');
+    //console.log($scope.events);
+    $scope.eventCharacters = HeroService.getSelectedEvent();
+    //console.log($scope.hoverEvent);
+    $scope.setClick = function(event) {HeroService.setSelect(event)};
+    //console.log(event);
 }]);
 
 //////////// EVENT DETAIL CONTROLLER ////////////
 heroApp.controller('EventDetailController', ['$scope', '$routeParams', 'HeroService', function($scope, $routeParams, HeroService) {
-    //console.log('Event Detail is Working');
-    $scope.event = HeroService.getCurrentEvent($routeParams.event);   
+    console.log('Event Detail is Working');
+    //$scope.event = HeroService.getCurrentEvent($routeParams.heroID, $routeParams.event);
+    $scope.event = HeroService.getSelectedEvent();
+    $scope.characters = HeroService.getEventCharacters($routeParams.eventID);
+    console.log($scope.characters);
 }]);
 
 //////////// HERO FACTORY ////////////
@@ -55,10 +67,11 @@ heroApp.factory('HeroService', function($http) {
     var events = [];
     var selectedHero = [];
     var selectedEvent = [];
+    var characters = [];
     
     $http({
         method: 'get',
-        url: 'http://gateway.marvel.com:80/v1/public/characters?limit=50&apikey=50f1baf21e1535c08fef3b992e928123',
+        url: 'http://gateway.marvel.com:80/v1/public/characters?limit=5&apikey=50f1baf21e1535c08fef3b992e928123',
     }).then(function (response) {
         angular.copy(response.data.data.results, heroes);
         //console.log(heroes);
@@ -70,36 +83,46 @@ heroApp.factory('HeroService', function($http) {
             return heroes;
         },
         
-        getCurrentHero: function (callback) {
-            for (let i = 0; i < heroes.length; i++) {
-                if (heroes[i].id === parseInt(callback)) {
-                    selectedHero = heroes[i]; 
-                }
-            }
-            //console.log(selectedHero);
-            return selectedHero;
-        },
-        
-        prepEvents: function(heroID) {
+        getCurrentHero: function (input) {
             $http({
                 method: 'get',
-                url: 'http://gateway.marvel.com:80/v1/public/characters/'+ heroID +'/events?apikey=50f1baf21e1535c08fef3b992e928123'
+                url: 'http://gateway.marvel.com:80/v1/public/characters/'+ input +'?apikey=50f1baf21e1535c08fef3b992e928123'
             }).then(function (response) {
-                angular.copy(response.data.data.results, events);
-                //console.log(events);
+                angular.copy(response.data.data.results, selectedHero);
+                //console.log(selectedHero);
             });
+            return selectedHero[0];
         },
         
-        getCurrentEvent: function (callback) {
-            console.log(callback);
-            for (let i = 0; i < events.length; i++) {
-                if (events[i].title === callback) {
-                    selectedEvent= events[i]; 
-                }
-            }
-            //console.log(selectedEvent);
-            return selectedEvent;
-            
+        getHeroEvents: function (input) {
+            $http({
+                method: 'get',
+                url: 'http://gateway.marvel.com:80/v1/public/characters/'+ input +'/events?apikey=50f1baf21e1535c08fef3b992e928123'
+            }).then(function (response) {
+                angular.copy(response.data.data.results, events);
+                angular.copy(response.data.data.results[0], selectedEvent);
+                //console.log(selectedEvent);
+            });
+            return events;
         },
+        
+        getEventCharacters: function (input) {
+            $http({
+                method: 'get',
+                url: 'http://gateway.marvel.com:80/v1/public/events/'+ input +'/characters?apikey=50f1baf21e1535c08fef3b992e928123'
+            }).then(function (response) {
+                angular.copy(response.data.data.results, characters);
+            });
+            return characters;
+        },
+        
+        getSelectedEvent: function() {
+            return selectedEvent;
+        },
+        
+        setSelect: function(input) {
+            angular.copy(input, selectedEvent);
+            console.log("Click Works");
+        }, 
     };
 });

@@ -4,6 +4,7 @@
         <a href="#/heroes/{{ hero.id }}">
             <img ng-src="{{ hero.thumbnail.path }}/standard_small.{{ hero.thumbnail.extension}} " class="small">
             <p class="list">{{ hero.name }}</p>
+            <p class="record"> Events on Record: {{ hero.events.available }}</p>
         </a>
     </li>
 </ul>
