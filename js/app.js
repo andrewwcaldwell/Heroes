@@ -47,7 +47,7 @@ heroApp.controller('HeroDetailController', ['$scope', '$routeParams', 'HeroServi
     //console.log($scope.events);
     $scope.eventCharacters = HeroService.getSelectedEvent();
     //console.log($scope.hoverEvent);
-    $scope.setClick = function(event) {HeroService.setSelect(event)};
+    $scope.setClick = function(event) {HeroService.setSelect(event);};
     //console.log(event);
 }]);
 
@@ -88,10 +88,10 @@ heroApp.factory('HeroService', function($http) {
                 method: 'get',
                 url: 'http://gateway.marvel.com:80/v1/public/characters/'+ input +'?apikey=50f1baf21e1535c08fef3b992e928123'
             }).then(function (response) {
-                angular.copy(response.data.data.results, selectedHero);
+                angular.copy(response.data.data.results[0], selectedHero);
                 //console.log(selectedHero);
             });
-            return selectedHero[0];
+            return selectedHero;
         },
         
         getHeroEvents: function (input) {
